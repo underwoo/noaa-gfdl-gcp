@@ -23,7 +23,7 @@ resources:
 - name: slurm-cluster
   type: slurm.jinja
   properties:
-    cluster_name            : google1
+    cluster_name            : gfdlmodel1
     static_node_count       : 2
     max_node_count          : 10
     zone                    : us-east1-b
@@ -34,8 +34,8 @@ resources:
     compute_machine_type    : n1-standard-2
     login_machine_type      : n1-standard-1
 
-    slurm_version           : <slurm version e.g. 17.11.5>
+    slurm_version           : 17.11.6
     default_account         : default
-    default_users           : <comma separated list of users>
+    default_users           : seth_underwood
     munge_key               : <.e.g date +%s | sha512sum | cut -d' ' -f1 >
 #  [END cluster_yaml]
