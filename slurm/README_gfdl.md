@@ -6,6 +6,55 @@ The information in this directory was taken from the [SchedMD slurm repo on gith
 Then modified for NOAA-GFDL/Princeton University use to test running HPC in the cloud.
 More information on how to use this package is available on the [Google Cloud Platform](https://cloudplatform.googleblog.com/2018/03/easy-HPC-clusters-on-GCP-with-Slurm.html) blog.
 
+## Things to remember
+
+### Where to watch install progress
+
+The /var/log/messages on the controller node will have the information from the
+startup script (i.e. the installation of slurm, etc).
+
+### How to fix when startup script can't get memory
+
+This has happened a few times, the startup script fails to connect to google and
+get the information about the compute node memory, cpu, etc.  When this happens,
+the startup script appears to finish the install, but the information in the file
+`/apps/slurm/current/etc/slurm.conf` is incorrect.  To fix:
+
+1. connect to the contoller node.
+2. Run the following in `python`
+```python
+import googleapiclient.discovery
+
+MACHINE_TYPE='<compute_note_machine_type>' # As defined in the slurm-cluster.yaml file
+PROJECT='gfdl-modeling'
+ZONE='us-east1-b'
+
+compute = googleapiclient.discovery.build('compute', 'v1',cache_discovery=False)
+type_resp = compute.machineTypes().get(project=PROJECT, zone=ZONE,machineType=MACHINE_TYPE).execute()
+
+gb = type_resp['memoryMb'] / 1024;
+
+machine = {'sockets': 1, 'cores': 1, 'threads': 1, 'memory': 1}
+machine['memory'] = type_resp['memoryMb'] - (400 + (gb * 30))
+tot_cpus = type_resp['guestCpus']
+if tot_cpus > 1:
+  machine['cores']   = tot_cpus / 2
+  machine['threads'] = 2
+def_mem_per_cpu = max(100, (machine['memory'] / (machine['threads']*machine['cores']*machine['sockets'])))
+print machine['memory']
+print machine['cores']
+print machine['threads']
+print def_mem_per_cpu
+```
+3. Update the lines in `/apps/slurm/current/etc/slurm.conf`, with the information
+printed out from the python above.  Note, the variables names are used below, replace
+the variable name with the information printed.
+```
+DefMemPerCPU={def_mem_per_cpu}
+NodeName=DEFAULT Sockets=1 CoresPerSocket=<machine['cores']> ThreadsPerCore=<machine['threads']> RealMemory=<machine['memory']> State=UNKNOWN
+```
+4. Restart the slurm controller: `sudo /apps/slurm/current/bin/scontrol reconfig`
+
 ## Introduction
 
 The following describes setting up a Slurm cluster using [Google Cloud

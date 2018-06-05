@@ -24,17 +24,19 @@ resources:
   type: slurm.jinja
   properties:
     cluster_name            : gfdlmodel1
-    static_node_count       : 2
+    static_node_count       : 0
     max_node_count          : 10
     zone                    : us-east1-b
     region                  : us-east1
     cidr                    : 10.10.0.0/16
 
     controller_machine_type : n1-standard-2
-    compute_machine_type    : n1-standard-2
+    compute_machine_type    : n1-highcpu-96
     login_machine_type      : n1-standard-1
 
-    slurm_version           : 17.11.6
+    preemptible_bursting    : True
+
+    slurm_version           : 17.11.7
     default_account         : default
     default_users           : seth_underwood
     munge_key               : <.e.g date +%s | sha512sum | cut -d' ' -f1 >

@@ -141,7 +141,7 @@ properties:
     type        : boolean
     default     : False
     description : |
-      Whether bursted compute nodes are preemptible instances or not. Makre sure
+      Whether bursted compute nodes are preemptible instances or not. Make sure
       to choose a zone that has preemptible resources.
 
   region:
@@ -161,4 +161,3 @@ properties:
   zone:
     type        : string
     description : Zone to run the instances in based on Region.
-
