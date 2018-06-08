@@ -178,8 +178,19 @@ def install_packages():
                 'vim',
                 'wget'
                ]
+    packages_extra = ['gcc-gfortran',
+                      'gcc-g++',
+                      'git',
+                      'Lmod',
+                      'netcdf',
+                      'netcdf-devel',
+                      'netcdf-fortran',
+                      'netcdf-fortran-devel',
+                      'openmpi',
+                      'openmpi-devel',
+    ]
 
-    while subprocess.call(['yum', 'install', '-y'] + packages):
+    while subprocess.call(['yum', 'install', '-y'] + packages + packages_extra):
         print "yum failed to install packages. Trying again in 5 seconds"
         time.sleep(5)
 

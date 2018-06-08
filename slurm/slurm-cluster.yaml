@@ -31,8 +31,11 @@ resources:
     cidr                    : 10.10.0.0/16
 
     controller_machine_type : n1-standard-2
+    controller_disk_size_gb : 200
     compute_machine_type    : n1-highcpu-96
+    compute_disk_size_gb    : 50
     login_machine_type      : n1-standard-1
+    login_disk_size_gb      : 50
 
     preemptible_bursting    : True
 
