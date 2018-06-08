@@ -13,7 +13,7 @@ More information on how to use this package is available on the [Google Cloud Pl
 The /var/log/messages on the controller node will have the information from the
 startup script (i.e. the installation of slurm, etc).
 
-### How to fix when startup script can't get memory
+### How to fix when startup script can't get compute memory size
 
 This has happened a few times, the startup script fails to connect to google and
 get the information about the compute node memory, cpu, etc.  When this happens,
