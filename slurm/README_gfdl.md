@@ -55,6 +55,37 @@ NodeName=DEFAULT Sockets=1 CoresPerSocket=<machine['cores']> ThreadsPerCore=<mac
 ```
 4. Restart the slurm controller: `sudo /apps/slurm/current/bin/scontrol reconfig`
 
+### Install Intel compilers and license
+
+#### License server
+
+1. Download the license server software (`l_isl_server_p_<version.tgz`)
+   from intel.  Note, need to register the license first.
+1. Place the tarball on the `controller` node.
+1. Run the `install.sh` program
+  1. Press "Enter" to choose the default option to continue. 
+  1. Note, Since the cluster is CentOS and not Red Hat, there will be
+     an unsupported OS warning.  Press "Enter" to continue and skip the 
+	 prerequisites.
+  1. Read the license, and "accept" the license.
+  1. Press "1" (or "Enter") to enter the serial number.  Copy the
+     serial number and press "Enter".
+  1. Select "2" to customize the installation
+  1. Select "2" and change the installation directory to "/apps/intel"
+  1. Press "Enter" to continue
+  1. Press "Enter" to continue
+  1. Installation should be complete.  Press "Enter" two times to
+     leave the installation program.  Note, if an error occured during
+     the install, resolve the issue.  Then re-run the installation to
+     remove and then reinstall.
+1. Get the HostID of the license server.  Run
+   `/apps/intel/licenseserver/lmhostid`.  This will return a line that
+   resembles `The FlexNet host ID of this machine is "<host_id>"`.
+1. Put the hostID in place at the license registration page (as used
+   in step 1), and "Activate [the] Serial Number".
+   
+
+   
 ## Introduction
 
 The following describes setting up a Slurm cluster using [Google Cloud
@@ -74,8 +105,8 @@ Platform. The scripts setup the following scenario:
 
 * 1 - controller node
 * 1 - login node
-* N - compute nodes with a configured number of nodes that can be dynamically
-created to match workload.
+* N - compute nodes with a configured number of nodes that can be
+dynamically created to match workload.
 
 The default image for the instances is CentOS 7.
 

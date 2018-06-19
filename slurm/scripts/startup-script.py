@@ -188,6 +188,7 @@ def install_packages():
                       'netcdf-fortran-devel',
                       'openmpi',
                       'openmpi-devel',
+                      'redhat-lsb-core',
     ]
 
     while subprocess.call(['yum', 'install', '-y'] + packages + packages_extra):
