@@ -161,3 +161,4 @@ properties:
   zone:
     type        : string
     description : Zone to run the instances in based on Region.
+

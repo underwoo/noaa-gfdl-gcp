@@ -39,8 +39,8 @@ resources:
 
     preemptible_bursting    : True
 
-    slurm_version           : 17.11.7
+    slurm_version           : <slurm version e.g. 17.11.5>
     default_account         : default
-    default_users           : seth_underwood
+    default_users           : <comma separated list of users>
     munge_key               : <.e.g date +%s | sha512sum | cut -d' ' -f1 >
 #  [END cluster_yaml]
